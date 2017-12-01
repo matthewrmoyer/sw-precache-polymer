@@ -75,13 +75,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       window.Polymer = {rootPath: '/'};
 
       // Load and register pre-caching Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('service-worker.js', {
-            scope: Polymer.rootPath,
-          });
-        });
-      }
+      const registerSw = (async () => {
+        if ('serviceWorker' in navigator) {
+          console.log('SW supported')
+          try {
+            let swReg = await navigator.serviceWorker.register('./service-worker.js')
+            console.log('sw registered', swReg)
+            setInterval(() => {
+              console.log('updating the sw...');
+              swReg.update()
+            }, 6000)
+          } catch (err) {
+            console.error('Error registering SW ', err)
+            return err
+          }
+        } else {
+          console.warn('SW not supported')
+        }
+      })()
     </script>
 
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
