@@ -10,21 +10,27 @@
 
 /* eslint-env node */
 
+// sw-precache --config=sw-precache-config.js --verbose <- type this into the terminal to build the sw, then use polymer serve to serve it up with the build SW
+
 module.exports = {
   staticFileGlobs: [
-    'bower_components/webcomponentsjs/webcomponents-loader.js',
+    // 'bower_components/webcomponentsjs/webcomponents-loader.js',
     'images/*',
     'manifest.json',
+    'src/my-app.html'
   ],
   runtimeCaching: [
     {
-      urlPattern: /\/bower_components\/webcomponentsjs\/.*.js/,
+      urlPattern: '/\/bower_components\/webcomponentsjs\/.*.js/',
       handler: 'fastest',
       options: {
+        skipWaiting: true,
+        clientsClaim : true,
         cache: {
           name: 'webcomponentsjs-polyfills-cache',
         },
       },
     },
   ],
+
 };
