@@ -83,14 +83,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             console.log('sw registered', swReg)
             swReg.addEventListener('updatefound', (e) => {
                 console.log('sw CHANGE CHANGED CHANGED' + e);
-                window.location.reload()
                 console.log(e);
                 console.log(e.data);  
+                (function rerender() {
+                  console.log('%crerender function called...', 'color: yellow');
+                  setTimeout(() => {
+                    console.log('in settimout');
+                    
+                window.location.reload()
+                    
+                  }, 5000);
+                })()
+                // window.location.reload()
             })
             setInterval(() => {
               console.log('updating the sw...');
               swReg.update()
-            }, 6000)
+            }, 3000)
           } catch (err) {
             console.error('Error registering SW ', err)
             return err
